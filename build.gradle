@@ -29,6 +29,10 @@ dependencies {
   compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
   compileOnly('jakarta.websocket:jakarta.websocket-api:2.0.0')
 
+  implementation 'org.mongodb:mongodb-driver-sync:4.1.1'
+  implementation 'org.json:json:20231013'
+  implementation 'com.auth0:java-jwt:4.4.0'
+
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

@@ -1,8 +1,22 @@
 name: ws-server
 services:
+  db:
+    container_name: ws-db
+    image: mongo:latest
+    volumes:
+      - /home/gfds/data:/data/db
+    networks:
+      - back
   ws-server:
+    depends_on:
+      - db
     build: .
     ports:
       - 8080:8080
     container_name: ws-server
     image: ws-server
+    networks:
+      - back
+networks:
+  back:
+
