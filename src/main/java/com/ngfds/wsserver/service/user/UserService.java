@@ -14,15 +14,15 @@ import static com.mongodb.client.model.Filters.eq;
 public class UserService {
 
     private static final MongoCollection<Document> usersCollection = DBConn.getCollection("users");
-    private static final BlockingQueue<JSONObject> usersToAdd = new LinkedBlockingQueue<>();
+    private static final BlockingQueue<JSONObject> usersToInsert = new LinkedBlockingQueue<>();
 
     public UserService() {
-        Thread userCreationThread = new Thread(this::handleUsersInQueue);
-        userCreationThread.start();
+        Thread userInsertionThread = new Thread(this::handleUsersInQueue);
+        userInsertionThread.start();
     }
 
     public void createUser(JSONObject payload) {
-        usersToAdd.offer(payload);
+        usersToInsert.offer(payload);
     }
 
     public Document getUserByEmail(String email) {
@@ -32,7 +32,7 @@ public class UserService {
     private void handleUsersInQueue() {
         try {
             while(!Thread.currentThread().isInterrupted()){
-                JSONObject payload = usersToAdd.take();
+                JSONObject payload = usersToInsert.take();
                 insertUser(payload);
             }
         } catch (InterruptedException e) {

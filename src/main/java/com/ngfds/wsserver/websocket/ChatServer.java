@@ -1,6 +1,7 @@
 package com.ngfds.wsserver.websocket;
 
 import com.mongodb.client.MongoIterable;
+import com.ngfds.wsserver.controller.message.MessageController;
 import com.ngfds.wsserver.utils.MessageBroadcaster;
 import com.ngfds.wsserver.service.message.MessageService;
 import com.ngfds.wsserver.websocket.room.Room;
@@ -14,6 +15,13 @@ import org.json.JSONObject;
 
 @ServerEndpoint("/room/{id}")
 public class ChatServer {
+
+
+    private final MessageController messageController;
+
+    public ChatServer() {
+        messageController = new MessageController();
+    }
 
     @OnOpen
     public void onOpen(@PathParam("id") String id, Session session) {
@@ -29,11 +37,17 @@ public class ChatServer {
 
     @OnMessage
     public void onMessage(@PathParam("id") String id, Session session, String message) {
-        Room room = RoomService.getRoomByID(id);
 
-        Document newMessage = MessageService.storeMessage(message, "c6e34242-5c3b-42e8-af1f-95e5a168c35d", room.getId());
+        JSONObject receivedMessaged = new JSONObject(message);
 
-        MessageBroadcaster.sendMessageToRoom(id, newMessage.toJson());
+        JSONObject newMessage = messageController.createMessage(
+            new JSONObject()
+                .put("message", receivedMessaged.get("message"))
+                .put("authorId", receivedMessaged.get("authorId"))
+                .put("roomId", id)
+        );
+
+        MessageBroadcaster.sendMessageToRoom(id, newMessage.toString());
     }
 
     @OnClose
