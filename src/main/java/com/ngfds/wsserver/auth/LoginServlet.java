@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.mongodb.client.MongoCollection;
 import com.ngfds.wsserver.db.DBConn;
+import com.ngfds.wsserver.util.CorsHandler;
 import com.ngfds.wsserver.util.SecretKeyGenerator;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,12 +24,21 @@ import static com.mongodb.client.model.Filters.eq;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    /* Example of basic login */
+
     private final SecretKey superSecretKey = SecretKeyGenerator.generateKey("HmacSHA256");
 
     public LoginServlet() throws NoSuchAlgorithmException {}
 
+    @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response) {
+        CorsHandler.handleCorsHeaders(response);
+    }
+
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+        CorsHandler.handleCorsHeaders(response);
 
         MongoCollection<Document> usersCollection = DBConn.getCollection("users");
 

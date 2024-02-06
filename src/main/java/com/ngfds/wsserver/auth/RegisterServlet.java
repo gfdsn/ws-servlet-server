@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
+    /* Example of basic register */
+
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) {
         CorsHandler.handleCorsHeaders(response);
