@@ -1,8 +1,8 @@
-package com.ngfds.wsserver.message;
+package com.ngfds.wsserver.service.message;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoIterable;
-import com.ngfds.wsserver.db.DBConn;
+import com.ngfds.wsserver.dao.DBConn;
 import org.bson.Document;
 import org.json.JSONObject;
 

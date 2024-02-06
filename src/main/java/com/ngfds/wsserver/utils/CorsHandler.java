@@ -1,4 +1,4 @@
-package com.ngfds.wsserver.util;
+package com.ngfds.wsserver.utils;
 
 import jakarta.servlet.http.HttpServletResponse;
 

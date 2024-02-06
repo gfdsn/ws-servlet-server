@@ -1,4 +1,6 @@
-package com.ngfds.wsserver.room;
+package com.ngfds.wsserver.service.room;
+
+import com.ngfds.wsserver.websocket.room.Room;
 
 import java.util.HashSet;
 import java.util.Objects;

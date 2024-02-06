@@ -1,23 +1,24 @@
-package com.ngfds.wsserver.auth;
+package com.ngfds.wsserver.controller.auth;
 
-import com.mongodb.client.MongoCollection;
-import com.ngfds.wsserver.db.DBConn;
-import com.ngfds.wsserver.util.CorsHandler;
+import com.ngfds.wsserver.service.auth.AuthService;
+import com.ngfds.wsserver.utils.CorsHandler;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.bson.Document;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
     /* Example of basic register */
+    private final AuthService authService;
+
+    public RegisterServlet() throws NoSuchAlgorithmException { this.authService = new AuthService(); }
 
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) {
@@ -27,24 +28,18 @@ public class RegisterServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-
         CorsHandler.handleCorsHeaders(response);
 
-        MongoCollection<Document> users = DBConn.getCollection("users");
         String requestBody = request.getReader().lines().collect(Collectors.joining());
+
         JSONObject data = new JSONObject(requestBody);
-        Document user = new Document();
+        authService.createUser(data);
 
-        user.put("_id", UUID.randomUUID().toString());
-        user.put("name", data.get("name"));
-        user.put("email", data.get("email"));
-        user.put("password", data.get("password"));
-
-        users.insertOne(user);
+        JSONObject jsonRes = new JSONObject();
+        jsonRes.put("message", "User created successfully");
 
         response.setStatus(201);
-        response.getWriter().write(new JSONObject(user).toString());
-
+        response.getWriter().write(jsonRes.toString());
     }
 
 }

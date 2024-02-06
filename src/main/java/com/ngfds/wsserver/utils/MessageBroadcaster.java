@@ -1,9 +1,8 @@
-package com.ngfds.wsserver.message;
+package com.ngfds.wsserver.utils;
 
-import com.ngfds.wsserver.room.Room;
-import com.ngfds.wsserver.room.RoomService;
+import com.ngfds.wsserver.websocket.room.Room;
+import com.ngfds.wsserver.service.room.RoomService;
 import jakarta.websocket.Session;
-import org.json.JSONObject;
 
 public class MessageBroadcaster {
 

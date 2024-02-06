@@ -1,20 +1,16 @@
-package com.ngfds.wsserver;
+package com.ngfds.wsserver.websocket;
 
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoIterable;
-import com.ngfds.wsserver.message.MessageBroadcaster;
-import com.ngfds.wsserver.message.MessageService;
-import com.ngfds.wsserver.room.Room;
-import com.ngfds.wsserver.room.RoomService;
+import com.ngfds.wsserver.utils.MessageBroadcaster;
+import com.ngfds.wsserver.service.message.MessageService;
+import com.ngfds.wsserver.websocket.room.Room;
+import com.ngfds.wsserver.service.room.RoomService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @ServerEndpoint("/room/{id}")
 public class ChatServer {

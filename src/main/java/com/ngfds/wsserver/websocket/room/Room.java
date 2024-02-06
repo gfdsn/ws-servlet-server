@@ -1,4 +1,4 @@
-package com.ngfds.wsserver.room;
+package com.ngfds.wsserver.websocket.room;
 
 import jakarta.websocket.Session;
 

@@ -1,4 +1,4 @@
-package com.ngfds.wsserver.db;
+package com.ngfds.wsserver.dao;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
