@@ -1,11 +1,13 @@
 package com.ngfds.wsserver.service.message;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoIterable;
 import com.ngfds.wsserver.dao.DBConn;
 import org.bson.Document;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -23,7 +25,29 @@ public class MessageService {
     }
 
     public static MongoIterable<JSONObject> getMessagesFromRoom(String roomId) {
-        return messagesCollection.find(eq("roomId", roomId)).map(JSONObject::new);
+
+        AggregateIterable<Document> pipeline = messagesCollection.aggregate(
+                Arrays.asList(
+                        new Document("$lookup",
+                                new Document("from", "users")
+                                    .append("localField", "authorId")
+                                    .append("foreignField", "_id")
+                                    .append("as", "author")),
+                        new Document("$unwind", "$author"),
+                        new Document("$project",
+                                new Document("_id", 1)
+                                    .append("message", 1)
+                                    .append("roomId", 1)
+                                    .append("authorId", 1)
+                                    .append("createdAt", 1)
+                                    .append("author",
+                                        new Document("_id", "$author._id")
+                                            .append("name", "$author.name"))
+                        )
+                )
+        );
+
+        return pipeline.map(JSONObject::new);
     }
 
     public JSONObject createMessage(JSONObject payload){
@@ -43,7 +67,7 @@ public class MessageService {
         newMessage.put("roomId", payload.get("roomId"));
         newMessage.put("authorId", payload.get("authorId"));
         newMessage.put("message", payload.get("message"));
-        newMessage.put("created_at", payload.get("created_at"));
+        newMessage.put("createdAt", payload.get("createdAt"));
 
         messagesCollection.insertOne(newMessage);
     }

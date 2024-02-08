@@ -43,7 +43,7 @@ public class ChatServer {
                 .put("message", receivedMessaged.get("message"))
                 .put("authorId", receivedMessaged.get("authorId"))
                 .put("roomId", id)
-                .put("created_at", receivedMessaged.get("created_at"))
+                .put("createdAt", receivedMessaged.get("createdAt"))
         );
 
         messageController.sendMessageToRoom(id, "[" + newMessage.toString() + "]");
