@@ -41,8 +41,7 @@ public class MessageService {
                                     .append("authorId", 1)
                                     .append("createdAt", 1)
                                     .append("author",
-                                        new Document("_id", "$author._id")
-                                            .append("name", "$author.name"))
+                                        new Document("name", "$author.name"))
                         )
                 )
         );
