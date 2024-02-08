@@ -43,6 +43,7 @@ public class MessageService {
         newMessage.put("roomId", payload.get("roomId"));
         newMessage.put("authorId", payload.get("authorId"));
         newMessage.put("message", payload.get("message"));
+        newMessage.put("created_at", payload.get("created_at"));
 
         messagesCollection.insertOne(newMessage);
     }

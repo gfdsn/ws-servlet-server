@@ -36,7 +36,6 @@ public class Room {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         Stream<String> sessionIds = sessions.stream().map(Session::getId);
 
         sb.append(System.lineSeparator());

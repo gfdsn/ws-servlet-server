@@ -2,14 +2,12 @@ package com.ngfds.wsserver.websocket;
 
 import com.mongodb.client.MongoIterable;
 import com.ngfds.wsserver.controller.message.MessageController;
-import com.ngfds.wsserver.utils.MessageBroadcaster;
 import com.ngfds.wsserver.service.message.MessageService;
 import com.ngfds.wsserver.websocket.room.Room;
 import com.ngfds.wsserver.service.room.RoomService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
-import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,7 +30,7 @@ public class ChatServer {
 
         JSONArray messages = new JSONArray(iterableMessages);
 
-        MessageBroadcaster.sendMessageToRoom(id, messages.toString());
+        messageController.sendMessageToRoom(id, messages.toString());
     }
 
     @OnMessage
@@ -45,9 +43,10 @@ public class ChatServer {
                 .put("message", receivedMessaged.get("message"))
                 .put("authorId", receivedMessaged.get("authorId"))
                 .put("roomId", id)
+                .put("created_at", receivedMessaged.get("created_at"))
         );
 
-        MessageBroadcaster.sendMessageToRoom(id, newMessage.toString());
+        messageController.sendMessageToRoom(id, "[" + newMessage.toString() + "]");
     }
 
     @OnClose
