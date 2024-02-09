@@ -28,6 +28,8 @@ public class MessageService {
 
         AggregateIterable<Document> pipeline = messagesCollection.aggregate(
                 Arrays.asList(
+                        new Document("$match",
+                                new Document("roomId", roomId)),
                         new Document("$lookup",
                                 new Document("from", "users")
                                     .append("localField", "authorId")

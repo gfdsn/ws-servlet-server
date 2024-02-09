@@ -14,7 +14,6 @@ import org.json.JSONObject;
 @ServerEndpoint("/room/{id}")
 public class ChatServer {
 
-
     private final MessageController messageController;
 
     public ChatServer() {
