@@ -1,5 +1,6 @@
 package com.ngfds.wsserver.service.auth;
 
+import com.ngfds.wsserver.controller.user.UserController;
 import com.ngfds.wsserver.dto.UserDto;
 import com.ngfds.wsserver.service.user.UserService;
 import com.ngfds.wsserver.utils.ResponseInfo;
@@ -11,12 +12,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class AuthService {
 
-    private final UserService userService;
+    private final UserController userController;
 
-    public AuthService() throws NoSuchAlgorithmException { this.userService = new UserService(); }
+    public AuthService() throws NoSuchAlgorithmException { this.userController = new UserController(); }
 
     public void createUser(JSONObject payload) {
-        userService.createUser(payload);
+        userController.createUser(payload);
     }
 
     public JSONObject loginUser(JSONObject payload) throws NoSuchAlgorithmException {
@@ -24,7 +25,7 @@ public class AuthService {
         String password = payload.getString("password");
 
         JSONObject res = new JSONObject();
-        Document user = userService.getUserByEmail(email);
+        Document user = userController.getUserByEmail(email);
 
         if (user != null
                 && verifyPassword(user, password)) {

@@ -24,7 +24,7 @@ public class UserService {
     public void createUser(JSONObject payload) {
         usersToInsert.offer(payload);
     }
-
+    public Document getUserById(String id) { return  usersCollection.find(eq("_id", id)).first(); }
     public Document getUserByEmail(String email) {
         return usersCollection.find(eq("email", email)).first();
     }
