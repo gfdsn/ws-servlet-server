@@ -4,6 +4,7 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoIterable;
 import com.ngfds.wsserver.dao.DBConn;
+import com.ngfds.wsserver.utils.ResponseInfo;
 import org.bson.Document;
 import org.json.JSONObject;
 
@@ -58,7 +59,7 @@ public class MessageService {
         );
 
         if (added) return payload;
-        else return new JSONObject().put("error", "An error occurred when trying to insert the image");
+        else return new JSONObject().put("error", ResponseInfo.MESSAGE_CREATION_ERROR.value());
     }
 
     private static void insertMessage(JSONObject payload) {

@@ -2,6 +2,7 @@ package com.ngfds.wsserver.service.auth;
 
 import com.ngfds.wsserver.dto.UserDto;
 import com.ngfds.wsserver.service.user.UserService;
+import com.ngfds.wsserver.utils.ResponseInfo;
 import com.ngfds.wsserver.utils.TokenGenerator;
 import org.bson.Document;
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ public class AuthService {
             res.put("token", token);
             res.put("user", new UserDto(user).toJson());
 
-        } else res.put("error", "Invalid credentials");
+        } else res.put("error", ResponseInfo.AUTH_INVALID_CREDENTIALS.value());
 
         return res;
     }

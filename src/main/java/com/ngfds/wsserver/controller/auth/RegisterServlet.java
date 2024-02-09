@@ -2,6 +2,7 @@ package com.ngfds.wsserver.controller.auth;
 
 import com.ngfds.wsserver.service.auth.AuthService;
 import com.ngfds.wsserver.utils.CorsHandler;
+import com.ngfds.wsserver.utils.ResponseInfo;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
         authService.createUser(data);
 
         JSONObject jsonRes = new JSONObject();
-        jsonRes.put("message", "User created successfully");
+        jsonRes.put("message", ResponseInfo.USER_CREATED.value());
 
         response.setStatus(201);
         response.getWriter().write(jsonRes.toString());
