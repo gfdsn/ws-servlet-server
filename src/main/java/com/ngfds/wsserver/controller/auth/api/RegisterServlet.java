@@ -1,6 +1,6 @@
-package com.ngfds.wsserver.controller.auth;
+package com.ngfds.wsserver.controller.auth.api;
 
-import com.ngfds.wsserver.service.auth.AuthService;
+import com.ngfds.wsserver.controller.user.UserController;
 import com.ngfds.wsserver.utils.CorsHandler;
 import com.ngfds.wsserver.utils.ResponseInfo;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,16 +10,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
     /* Example of basic register */
-    private final AuthService authService;
+    private final UserController userController;
 
-    public RegisterServlet() throws NoSuchAlgorithmException { this.authService = new AuthService(); }
+    public RegisterServlet() { this.userController = new UserController(); }
 
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) {
@@ -34,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
         String requestBody = request.getReader().lines().collect(Collectors.joining());
 
         JSONObject data = new JSONObject(requestBody);
-        authService.createUser(data);
+        userController.createUser(data);
 
         JSONObject jsonRes = new JSONObject();
         jsonRes.put("message", ResponseInfo.USER_CREATED.value());

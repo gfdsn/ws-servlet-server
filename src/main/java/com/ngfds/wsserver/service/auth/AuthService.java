@@ -14,11 +14,7 @@ public class AuthService {
 
     private final UserController userController;
 
-    public AuthService() throws NoSuchAlgorithmException { this.userController = new UserController(); }
-
-    public void createUser(JSONObject payload) {
-        userController.createUser(payload);
-    }
+    public AuthService() { this.userController = new UserController(); }
 
     public JSONObject loginUser(JSONObject payload) throws NoSuchAlgorithmException {
         String email = payload.getString("email");
@@ -40,7 +36,7 @@ public class AuthService {
         return res;
     }
 
-    public boolean verifyPassword(Document user, String password) {
+    private boolean verifyPassword(Document user, String password) {
         return user.get("password").equals(password);
     }
 
